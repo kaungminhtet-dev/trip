@@ -21,7 +21,7 @@ export interface IRouteList {
   origin: string;
   destination: string;
   duration: number;
-  transportType: TransportType;
+  transportType: string;
 }
 
 export interface ICreateRoute {

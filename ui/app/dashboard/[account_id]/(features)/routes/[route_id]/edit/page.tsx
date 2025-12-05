@@ -1,15 +1,15 @@
 import {
   ICreateRoute,
   IRoute,
-} from "@/app/dashboard/[account_id]/(features)/routes/lib/types";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { RouteForm } from "../../components/route-form";
-import { fetchRouteById, getCities, getOperators } from "../../lib/mock-api";
+} from '@/app/dashboard/[account_id]/(features)/routes/lib/types';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { RouteForm } from '../../components/route-form';
+import { fetchRouteById, getCities, getOperators } from '../../lib/mock-api';
 
 interface EditRoutePageProps {
   params: {
@@ -21,21 +21,19 @@ interface EditRoutePageProps {
 export default async function EditRoutePage({ params }: EditRoutePageProps) {
   params = await params;
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild className="p-0">
-              <Link
-                href={`/dashboard/${params.account_id}/routes/${params.route_id}`}
-              >
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Back
-              </Link>
-            </Button>
-            <h1 className="text-3xl font-bold tracking-tight">Edit Route</h1>
-          </div>
-          <p className="text-muted-foreground">Modify route information</p>
+    <div className="container px-1 py-1 space-y-4">
+      <div
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" asChild>
+            <Link
+              href={`/dashboard/${params.account_id}/routes/${params.route_id}`}
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" />
+            </Link>
+          </Button>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Edit
+            Route</h1>
         </div>
       </div>
 

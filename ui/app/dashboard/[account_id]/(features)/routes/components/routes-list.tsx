@@ -1,6 +1,7 @@
-import { fetchRouteList } from "../lib/mock-api";
-import AppPagination from "./pagination";
-import { RoutesTable } from "./routes-table";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { fetchRouteList } from '../lib/mock-api';
+import { AppPagination } from './pagination';
+import { RoutesTable } from './routes-table';
 
 interface RoutesListProps {
   query?: string;
@@ -12,9 +13,10 @@ export async function RoutesList({ query, currentPage }: RoutesListProps) {
     limit: 10,
     page: currentPage || 1,
     search: query,
-    order_by: "departur",
+    order_by: "departure",
     sort_by: "asc",
   });
+  const totalPages = routes.metaData?.totalPages as number;
 
   if (!(routes.success && routes.data != null)) {
     return (
@@ -27,9 +29,14 @@ export async function RoutesList({ query, currentPage }: RoutesListProps) {
   }
 
   return (
-    <div className="flex flex-col space-y-4">
-      <RoutesTable routes={routes.data} />
-      <AppPagination totalPages={routes.metaData?.totalPages || 1} />
+    <div className={"h-11/12 flex flex-col gap-3 overflow-hidden"}>
+      <ScrollArea className="h-11/12 w-full rounded-md border p-1">
+        <RoutesTable routes={routes.data} />
+      </ScrollArea>
+      <AppPagination
+        totalPages={totalPages}
+        maxVisiblePages={totalPages >= 10 ? 10 : totalPages}
+      />
     </div>
   )
 }

@@ -12,7 +12,7 @@ export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data?: T;
-  metaData?: Pagination;
+  metaData: Pagination | null;
 }
 
 export interface Pagination {

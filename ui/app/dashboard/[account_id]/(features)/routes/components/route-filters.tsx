@@ -1,16 +1,16 @@
 "use client";
 
-import { DatePicker } from "@/components/date-picker";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DatePicker } from '@/components/date-picker';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Sheet,
   SheetContent,
@@ -19,10 +19,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
+} from '@/components/ui/sheet';
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface Props {
   placeholder: string
@@ -59,6 +59,7 @@ export function RouteFilters({ placeholder }: Props) {
             <SelectValue placeholder="Transport Type" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="ALL">All</SelectItem>
             <SelectItem value="BUS">Bus</SelectItem>
             <SelectItem value="TRAIN">Train</SelectItem>
             <SelectItem value="PLANE">Plane</SelectItem>

@@ -1,7 +1,7 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Metadata } from "next";
-import { Toaster } from "sonner";
-import NavPanel from "./components/nav-panel";
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { Metadata } from 'next';
+import { Toaster } from 'sonner';
+import NavPanel from './components/nav-panel';
 
 export const metadata: Metadata = {
   title: "Dashboard | Admin",

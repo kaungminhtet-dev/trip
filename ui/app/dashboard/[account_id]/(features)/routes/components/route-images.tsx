@@ -1,12 +1,11 @@
 'use client';
 
-import type React from 'react';
-import { useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import type React from 'react';
+import { useState } from 'react';
 import { deleteRouteImage, uploadRouteImage } from '../lib/actions';
 
 interface RouteImagesProps {
@@ -16,7 +15,6 @@ interface RouteImagesProps {
 
 export function RouteImages({ images, routeId }: RouteImagesProps) {
   const [isUploading, setIsUploading] = useState(false)
-
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return
 
@@ -29,6 +27,8 @@ export function RouteImages({ images, routeId }: RouteImagesProps) {
       setIsUploading(false)
     }
   }
+
+  console.log("images", images)
 
   return (
     <Card>

@@ -1,45 +1,56 @@
-import { Badge } from "@/components/ui/badge";
+import {
+  EditAndDeleteButton,
+} from '@/app/dashboard/[account_id]/(features)/routes/components/delete_button';
+import { Badge } from '@/components/ui/badge';
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Clock, MapPin, User } from "lucide-react";
-import { fetchRouteById } from "../lib/mock-api";
-import { formatDate, formatDuration } from "../lib/utils";
-import { RouteImages } from "./route-images";
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Calendar, Clock, MapPin, User } from 'lucide-react';
+import { fetchRouteById } from '../lib/mock-api';
+import { formatDate, formatDuration } from '../lib/utils';
+import { RouteImages } from './route-images';
 
 interface RouteDetailProps {
+  accountId: string;
   routeId: string;
 }
 
-export async function RouteDetail({ routeId }: RouteDetailProps) {
+export async function RouteDetail({ accountId, routeId }: RouteDetailProps) {
   const route = await fetchRouteById(routeId);
 
   if (!route) {
     return (
       <div>
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-          Route not found
+          No route found
         </h4>
       </div>
     );
   }
 
   return (
-    <Tabs defaultValue="details">
+    <Tabs className={"w-full pl-1 pr-1"} defaultValue="details">
       <TabsList>
         <TabsTrigger value="details">Details</TabsTrigger>
         <TabsTrigger value="images">Images</TabsTrigger>
-        <TabsTrigger value="tickets">Tickets</TabsTrigger>
+        {/*<TabsTrigger value="tickets">Tickets</TabsTrigger>*/}
       </TabsList>
       <TabsContent value="details" className="space-y-6">
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
+        <div className="grid md:grid-cols-3 gap-6">
+          <Card className={'col-span-2'}>
             <CardHeader>
+              <CardAction>
+                <EditAndDeleteButton
+                  account_id={accountId}
+                  route_id={routeId}
+                />
+              </CardAction>
               <CardTitle>Route Information</CardTitle>
               <CardDescription>Basic route details</CardDescription>
             </CardHeader>
@@ -118,7 +129,7 @@ export async function RouteDetail({ routeId }: RouteDetailProps) {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className={'col-span-1'}>
             <CardHeader>
               <CardTitle>Station Information</CardTitle>
               <CardDescription>Departure and arrival stations</CardDescription>

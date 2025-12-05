@@ -1,8 +1,11 @@
-import { RoutesList } from "@/app/dashboard/[account_id]/(features)/routes/components/routes-list";
-import withDashboardHeader from "@/app/dashboard/[account_id]/components/dashboard-header";
-import { Suspense } from "react";
-import { RoutesHeader } from "./components/routes-header";
-import { RoutesTableSkeleton } from "./components/routes-table-skeleton";
+import {
+  RoutesList,
+} from '@/app/dashboard/[account_id]/(features)/routes/components/routes-list';
+import withDashboardHeader
+  from '@/app/dashboard/[account_id]/components/dashboard-header';
+import { Suspense } from 'react';
+import { RoutesHeader } from './components/routes-header';
+import { RoutesTableSkeleton } from './components/routes-table-skeleton';
 
 export default async function RoutesPage(props: {
   searchParams?: Promise<{
@@ -16,12 +19,10 @@ export default async function RoutesPage(props: {
   const Header = withDashboardHeader(RoutesHeader);
 
   return (
-    <main className="container h-full space-y-2 mx-auto">
+    <main className="px-1 container h-screen overflow-hidden">
       <Header />
       <Suspense fallback={<RoutesTableSkeleton />}>
-        <div className="pr-1 pl-1 ">
           <RoutesList query={query} currentPage={currentPage} />
-        </div>
       </Suspense>
     </main>
   );

@@ -10,8 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +18,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Edit, Menu, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { deleteRouteById } from "../lib/mock-api";
+} from '@/components/ui/dropdown-menu';
+import { Edit, EllipsisVertical, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { deleteRouteById } from '../lib/mock-api';
 
 export function EditAndDeleteButton({
   account_id,
@@ -37,9 +36,7 @@ export function EditAndDeleteButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button variant="outline" size={"icon"}>
-          <Menu />
-        </Button>
+          <EllipsisVertical />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>

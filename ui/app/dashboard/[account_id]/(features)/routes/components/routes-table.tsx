@@ -10,22 +10,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -33,14 +33,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { deleteRouteById } from "../lib/mock-api";
-import { IRouteList } from "../lib/types";
-import { formatDate, formatDuration } from "../lib/utils";
+} from '@/components/ui/table';
+import { Edit, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { deleteRouteById } from '../lib/mock-api';
+import { IRouteList } from '../lib/types';
+import { formatDate, formatDuration } from '../lib/utils';
 
 interface RoutesTableProps {
   routes: IRouteList[];
@@ -60,10 +60,8 @@ export function RoutesTable({ routes }: RoutesTableProps) {
   }
 
   return (
-    <div className="rounded-md border overflow-hidden">
-      <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className={"h-14 bg-primary/10"}>
             <TableRow>
               <TableHead>Origin - Destination</TableHead>
               <TableHead className="hidden md:table-cell">Departure</TableHead>
@@ -75,7 +73,7 @@ export function RoutesTable({ routes }: RoutesTableProps) {
           </TableHeader>
           <TableBody>
             {routes.map((route) => (
-              <TableRow key={route.id}>
+              <TableRow key={route.id} onClick={() => router.push(`routes/${route.id}`)}>
                 <TableCell className="font-medium">
                   <div>
                     <div className="font-medium">
@@ -179,7 +177,5 @@ export function RoutesTable({ routes }: RoutesTableProps) {
             ))}
           </TableBody>
         </Table>
-      </div>
-    </div>
   );
 }

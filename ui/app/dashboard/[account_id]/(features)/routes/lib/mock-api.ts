@@ -1,7 +1,7 @@
 "use server";
 
-import { ApiResponse, Query } from "@/lib/type";
-import { faker } from "@faker-js/faker";
+import { ApiResponse, Query } from '@/lib/type';
+import { faker } from '@faker-js/faker';
 import {
   ICity,
   ICreateRoute,
@@ -9,7 +9,7 @@ import {
   IRoute,
   IRouteList,
   IStation,
-} from "./types";
+} from './types';
 
 faker.seed(123);
 
@@ -23,8 +23,9 @@ const cities: ICity[] = [
   { id: faker.string.uuid(), name: faker.location.city() },
 ];
 
-const stations: { city: string; stations: IStation[] }[] = cities.map(
+const stations: { id: string, city: string; stations: IStation[] }[] = cities.map(
   (city) => ({
+    id: city.id,
     city: city.name,
     stations: Array.from({ length: 10 }).map(() => ({
       id: faker.string.uuid(),
@@ -44,7 +45,17 @@ export async function getCities(): Promise<ICity[]> {
 }
 
 export async function getStations(city: string): Promise<IStation[]> {
-  return stations.filter((station) => station.city === city)[0].stations;
+  const filteredStations = stations.filter((station) => station.id === city);
+  return filteredStations[0].stations;
+}
+
+export async function getOperator(id: string): Promise<IOperator> {
+  return operators.find((op) => op.id == id) as IOperator;
+}
+
+export async function getStation(cityId: string, stationId: string): Promise<IStation> {
+  const stations = await getStations(cityId)
+  return stations.find((station) => station.id == stationId) as IStation;
 }
 
 export async function getOperators() {
@@ -55,9 +66,9 @@ function randomCity() {
   return faker.helpers.arrayElement(cities);
 }
 
-function randomStation(city: string): IStation {
+function randomStation(cityId: string): IStation {
   return faker.helpers.arrayElement(
-    stations.filter((station) => station.city === city)[0].stations
+    stations.filter((station) => station.city === cityId)[0].stations
   );
 }
 
@@ -139,14 +150,14 @@ export async function fetchRouteList(
     }));
 
   return {
-    message: "Rotue list is successfully fetched.",
+    message: "Routes are successfully fetched.",
     success: true,
     data: routeList,
     metaData: {
       limit: query.limit,
       page: query.page + 1,
-      totalCounts: routes.length,
-      totalPages: routes.length / query.limit,
+      totalCounts: routeList.length,
+      totalPages: Math.floor(routes.length / query.limit),
     },
   };
 }
@@ -187,14 +198,15 @@ export async function createRoute(
       faker.image.urlPicsumPhotos({ width: 640, height: 480 }),
       faker.image.urlPicsumPhotos({ width: 640, height: 480 }),
     ],
-    operator: randomOperator(),
-    departureStation: randomStation(route.origin),
-    arrivalStation: randomStation(route.destination),
+    operator: await getOperator(route.operatorId),
+    departureStation: await getStation(route.origin, route.departureStationId),
+    arrivalStation: await getStation(route.destination, route.arrivalStationId),
   };
   return {
     message: "Route is successfully created.",
     success: true,
     data: newRoute,
+    metaData: null
   };
 }
 
@@ -226,5 +238,6 @@ export async function deleteRouteById(id: string): Promise<ApiResponse<null>> {
   return {
     message: `Route id ${id} is successfully deleted.`,
     success: true,
+    metaData: null
   };
 }
