@@ -209,7 +209,7 @@ export function RouteForm({
                     defaultValue={field.value}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select transport type" />
+                      <SelectValue id={'transportType'} placeholder="Select transport type" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="BUS">Bus</SelectItem>

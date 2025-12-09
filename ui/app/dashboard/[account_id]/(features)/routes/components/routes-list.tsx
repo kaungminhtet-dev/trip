@@ -1,21 +1,17 @@
+import {
+  IQuery,
+} from '@/app/dashboard/[account_id]/(features)/routes/lib/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { fetchRouteList } from '../lib/mock-api';
 import { AppPagination } from './pagination';
 import { RoutesTable } from './routes-table';
 
 interface RoutesListProps {
-  query?: string;
-  currentPage?: number;
+  query: IQuery
 }
 
-export async function RoutesList({ query, currentPage }: RoutesListProps) {
-  const routes = await fetchRouteList({
-    limit: 10,
-    page: currentPage || 1,
-    search: query,
-    order_by: "departure",
-    sort_by: "asc",
-  });
+export async function RoutesList({ query }: RoutesListProps) {
+  const routes = await fetchRouteList(query);
   const totalPages = routes.metaData?.totalPages as number;
 
   if (!(routes.success && routes.data != null)) {
@@ -29,7 +25,8 @@ export async function RoutesList({ query, currentPage }: RoutesListProps) {
   }
 
   return (
-    <div className={"h-11/12 flex flex-col gap-3 overflow-hidden"}>
+    <div className={"flex-1 flex flex-col pb-1 justify-between" +
+      " overflow-hidden"}>
       <ScrollArea className="h-11/12 w-full rounded-md border p-1">
         <RoutesTable routes={routes.data} />
       </ScrollArea>

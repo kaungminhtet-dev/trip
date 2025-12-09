@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import { ApiResponse, Query } from '@/lib/type';
 import { faker } from '@faker-js/faker';
@@ -13,7 +13,7 @@ import {
 
 faker.seed(123);
 
-const transportTypes = ["BUS", "TRAIN", "FLIGHT"] as const;
+const transportTypes = ['BUS', 'TRAIN', 'FLIGHT'] as const;
 
 const cities: ICity[] = [
   { id: faker.string.uuid(), name: faker.location.city() },
@@ -23,7 +23,11 @@ const cities: ICity[] = [
   { id: faker.string.uuid(), name: faker.location.city() },
 ];
 
-const stations: { id: string, city: string; stations: IStation[] }[] = cities.map(
+const stations: {
+  id: string,
+  city: string;
+  stations: IStation[]
+}[] = cities.map(
   (city) => ({
     id: city.id,
     city: city.name,
@@ -31,13 +35,13 @@ const stations: { id: string, city: string; stations: IStation[] }[] = cities.ma
       id: faker.string.uuid(),
       name: faker.location.city(),
     })),
-  })
+  }),
 );
 
 const operators: IOperator[] = [
-  { id: faker.string.uuid(), name: "operator 1" },
-  { id: faker.string.uuid(), name: "operator 2" },
-  { id: faker.string.uuid(), name: "operator 3" },
+  { id: faker.string.uuid(), name: 'operator 1' },
+  { id: faker.string.uuid(), name: 'operator 2' },
+  { id: faker.string.uuid(), name: 'operator 3' },
 ];
 
 export async function getCities(): Promise<ICity[]> {
@@ -54,7 +58,7 @@ export async function getOperator(id: string): Promise<IOperator> {
 }
 
 export async function getStation(cityId: string, stationId: string): Promise<IStation> {
-  const stations = await getStations(cityId)
+  const stations = await getStations(cityId);
   return stations.find((station) => station.id == stationId) as IStation;
 }
 
@@ -68,7 +72,7 @@ function randomCity() {
 
 function randomStation(cityId: string): IStation {
   return faker.helpers.arrayElement(
-    stations.filter((station) => station.city === cityId)[0].stations
+    stations.filter((station) => station.city === cityId)[0].stations,
   );
 }
 
@@ -103,42 +107,44 @@ const routes: IRoute[] = Array.from({ length: 100 }).map(() => {
 });
 
 export async function searchRoutes(
-  query: Query
+  q: Query,
 ): Promise<ApiResponse<IRoute[]>> {
+  const query = { ...q, size: Number(q.size), page: Number(q.page) };
   const filteredRoutes = routes.filter(
     (route) =>
-      route.origin.toLowerCase().includes(query.search?.toLowerCase() || "") ||
+      route.origin.toLowerCase().includes(query.search?.toLowerCase() || '') ||
       route.destination
         .toLowerCase()
-        .includes(query.search?.toLowerCase() || "")
+        .includes(query.search?.toLowerCase() || ''),
   );
 
   return {
-    message: "Routes are successfully fetched.",
+    message: 'Routes are successfully fetched.',
     success: true,
     data: filteredRoutes.slice(
-      query.page * query.limit,
-      query.page * query.limit + query.limit
+      query.page * query.size,
+      query.page * query.size + query.size,
     ),
     metaData: {
-      limit: query.limit,
+      limit: query.size,
       page: query.page + 1,
       totalCounts: filteredRoutes.length,
-      totalPages: Math.ceil(filteredRoutes.length / query.limit),
+      totalPages: Math.ceil(filteredRoutes.length / query.size),
     },
   };
 }
 
 export async function fetchRouteList(
-  query: Query
+  q: Query,
 ): Promise<ApiResponse<IRouteList[]>> {
+  const query = { ...q, size: Number(q.size), page: Number(q.page) };
   if (query.search) {
-    return searchRoutes(query);
+    return searchRoutes(q);
   }
 
   const start = query.page * 10;
   const routeList: IRouteList[] = routes
-    .slice(start, start + query.limit)
+    .slice(start, start + query.size)
     .map((route) => ({
       id: route.id,
       departure: route.departure,
@@ -150,33 +156,34 @@ export async function fetchRouteList(
     }));
 
   return {
-    message: "Routes are successfully fetched.",
+    message: 'Routes are successfully fetched.',
     success: true,
     data: routeList,
     metaData: {
-      limit: query.limit,
+      limit: query.size,
       page: query.page + 1,
       totalCounts: routeList.length,
-      totalPages: Math.floor(routes.length / query.limit),
+      totalPages: Math.floor(routes.length / query.size),
     },
   };
 }
 
 export async function fetchRoutes(
-  query: Query
+  q: Query,
 ): Promise<ApiResponse<IRoute[]>> {
+  const query = { ...q, size: Number(q.size), page: Number(q.page) };
   const start = query.page * 10;
-  const data: IRoute[] = routes.slice(start, start + query.limit);
+  const data: IRoute[] = routes.slice(start, start + query.size);
 
   return {
-    message: "Routes are successfully fetched.",
+    message: 'Routes are successfully fetched.',
     success: true,
     data: data,
     metaData: {
-      limit: query.limit,
+      limit: query.size,
       page: query.page + 1,
       totalCounts: routes.length,
-      totalPages: routes.length / query.limit,
+      totalPages: routes.length / query.size,
     },
   };
 }
@@ -186,7 +193,7 @@ export async function fetchRouteById(id: string) {
 }
 
 export async function createRoute(
-  route: ICreateRoute
+  route: ICreateRoute,
 ): Promise<ApiResponse<IRoute>> {
   const newRoute: IRoute = {
     ...route,
@@ -203,10 +210,10 @@ export async function createRoute(
     arrivalStation: await getStation(route.destination, route.arrivalStationId),
   };
   return {
-    message: "Route is successfully created.",
+    message: 'Route is successfully created.',
     success: true,
     data: newRoute,
-    metaData: null
+    metaData: null,
   };
 }
 
@@ -224,11 +231,11 @@ export async function updateRoute(id: string, route: ICreateRoute) {
   updatedRoute.arrival = route.arrival.toISOString();
   updatedRoute.transportType = route.transportType;
   updatedRoute.operator = operators.find(
-    (operator) => operator.id === route.operatorId
+    (operator) => operator.id === route.operatorId,
   ) as IOperator;
 
   return {
-    message: "Route is successfully updated.",
+    message: 'Route is successfully updated.',
     success: true,
     data: updatedRoute,
   };
@@ -238,6 +245,6 @@ export async function deleteRouteById(id: string): Promise<ApiResponse<null>> {
   return {
     message: `Route id ${id} is successfully deleted.`,
     success: true,
-    metaData: null
+    metaData: null,
   };
 }

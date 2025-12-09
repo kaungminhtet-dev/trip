@@ -1,4 +1,4 @@
-export type TransportType = "BUS" | "TRAIN" | "FLIGHT";
+export type TransportType = 'BUS' | 'TRAIN' | 'FLIGHT';
 
 export interface IRoute {
   id: string;
@@ -51,5 +51,13 @@ export interface IOperator {
 }
 
 export interface IQuery {
-  departure?: string;
+  order_by: string;
+  sort_by: string;
+  page: string;
+  size: string;
+  search?: string;
+  departure?: Date;
+  arrival?: Date;
+  origin?: string;
+  destination?: string;
 }

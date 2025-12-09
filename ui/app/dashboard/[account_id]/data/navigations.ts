@@ -1,4 +1,4 @@
-import { Icon } from "@/components/icon-factory";
+import { Icon } from '@/components/icon-factory';
 
 interface NavDTO {
   id: string;
@@ -24,7 +24,7 @@ export default function getNavList(): NavDTO[] {
     {
       id: "3",
       name: "Routes",
-      endpoint: "routes?page=1",
+      endpoint: "routes?page=1&size=10&sort=departure&order=desc",
       icon: Icon.route,
     },
     {

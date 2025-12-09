@@ -1,11 +1,12 @@
 "use server";
 
 export interface Query {
-  page: number;
-  limit: number;
-  search?: string;
+  page: string;
+  size: string;
   sort_by: string;
   order_by: string;
+  search?: string;
+  transport_type ?: string;
 }
 
 export interface ApiResponse<T> {

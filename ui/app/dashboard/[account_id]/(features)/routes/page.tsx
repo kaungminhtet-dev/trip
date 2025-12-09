@@ -1,6 +1,16 @@
 import {
+  RouteFilter,
+} from '@/app/dashboard/[account_id]/(features)/routes/components/route-filter';
+import {
   RoutesList,
 } from '@/app/dashboard/[account_id]/(features)/routes/components/routes-list';
+import {
+  getCities,
+  getOperators,
+} from '@/app/dashboard/[account_id]/(features)/routes/lib/mock-api';
+import {
+  IQuery,
+} from '@/app/dashboard/[account_id]/(features)/routes/lib/types';
 import withDashboardHeader
   from '@/app/dashboard/[account_id]/components/dashboard-header';
 import { Suspense } from 'react';
@@ -13,16 +23,20 @@ export default async function RoutesPage(props: {
     page?: string;
   }>;
 }) {
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
+  const query = await props.searchParams as IQuery;
   const Header = withDashboardHeader(RoutesHeader);
+  const operators = await getOperators();
+  const cities = await getCities();
 
   return (
-    <main className="px-1 container h-screen overflow-hidden">
+    <main className="flex flex-col gap-2 px-1 container min-h-screen overflow-hidden">
       <Header />
+      <RouteFilter
+        operators={operators}
+        cities={cities}
+      />
       <Suspense fallback={<RoutesTableSkeleton />}>
-          <RoutesList query={query} currentPage={currentPage} />
+          <RoutesList query={query} />
       </Suspense>
     </main>
   );

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import Link from 'next/link';
-import { RouteFilters } from './route-filters';
+import { RouteSearch } from './route-search';
 
 export function RoutesHeader() {
   return (
@@ -12,7 +12,7 @@ export function RoutesHeader() {
           Add Route
         </Link>
       </Button>
-      <RouteFilters placeholder={"filter"} />
+      <RouteSearch placeholder={"Search"} />
     </div>
   );
 }
