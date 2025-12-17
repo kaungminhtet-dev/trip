@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -17,28 +17,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Loader2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
-import { createTicket } from "../lib/actions";
-import { TicketStatus, ticketSchema } from "../lib/schema";
+} from '@/components/ui/select';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import type { z } from 'zod';
+import { createTicket } from '../lib/actions';
+import {
+  CreateTicketFormValues,
+  createTicketSchema,
+  TicketStatus,
+} from '../lib/schema';
 
 // Define the form schema type
-type FormValues = z.infer<typeof ticketSchema>;
+type FormValues = z.infer<typeof createTicketSchema>;
 
 // Mock data for routes
 const routes = [
@@ -52,24 +56,21 @@ export default function NewTicketPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Initialize form with react-hook-form
-  const form = useForm<FormValues>({
-    resolver: zodResolver(ticketSchema),
+  const form = useForm<CreateTicketFormValues>({
+    resolver: zodResolver(createTicketSchema),
     defaultValues: {
       ticketNumber: "",
-      price: "",
+      price: 0,
       routeId: "",
       status: TicketStatus.AVAILABLE,
       bookingId: "",
     },
   });
 
-  // Handle form submission
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
 
     try {
-      // Create FormData object
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
@@ -77,7 +78,6 @@ export default function NewTicketPage() {
         }
       });
 
-      // Submit the form using server action
       const result = await createTicket(formData);
 
       if (result.success) {
@@ -86,23 +86,10 @@ export default function NewTicketPage() {
           description: `Ticket ${data.ticketNumber} has been created successfully.`,
         });
 
-        // Redirect to tickets page
         router.push("/tickets");
       } else {
-        // Handle validation errors
         if (result.errors) {
-          // Set form errors
-          Object.entries(result.errors).forEach(([key, value]) => {
-            if (key === "_form") {
-              // Show form-level error
-              toast.error("Error", {
-                description: value[0],
-              });
-            } else {
-              // Set field-level errors
-              form.setError(key as any, { message: value[0] });
-            }
-          });
+
         }
       }
     } catch (error) {

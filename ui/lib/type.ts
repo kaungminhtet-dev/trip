@@ -18,7 +18,7 @@ export interface ApiResponse<T> {
 
 export interface Pagination {
   page: number;
-  limit: number;
+  size: number;
   totalCounts: number;
   totalPages: number;
 }

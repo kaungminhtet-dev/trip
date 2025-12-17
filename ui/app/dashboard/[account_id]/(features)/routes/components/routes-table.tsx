@@ -40,7 +40,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { deleteRouteById } from '../lib/mock-api';
 import { IRouteList } from '../lib/types';
-import { formatDate, formatDuration } from '../lib/utils';
+import { formatDuration, formatTimeWithAMPM } from '../lib/utils';
 
 interface RoutesTableProps {
   routes: IRouteList[];
@@ -62,11 +62,10 @@ export function RoutesTable({ routes }: RoutesTableProps) {
   return (
     <>
       <Table>
-        <TableHeader className={"h-14 bg-primary/10"}>
+        <TableHeader className={"bg-primary/10"}>
           <TableRow>
-            <TableHead>Origin - Destination</TableHead>
-            <TableHead className="hidden md:table-cell">Departure</TableHead>
-            <TableHead className="hidden md:table-cell">Arrival</TableHead>
+            <TableHead className="hidden lg:table-cell">Origin - Destination</TableHead>
+            <TableHead className="hidden lg:table-cell">Start - End</TableHead>
             <TableHead className="hidden lg:table-cell">Duration</TableHead>
             <TableHead className="hidden lg:table-cell">Transport</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -76,20 +75,15 @@ export function RoutesTable({ routes }: RoutesTableProps) {
           {routes.map((route) => (
             <TableRow key={route.id} onClick={() => router.push(`routes/${route.id}`)}>
               <TableCell className="font-medium">
-                <div>
+                {/*<div>*/}
                   <div className="font-medium">
                     {route.origin} - {route.destination}
                   </div>
-                  <div className="text-sm text-muted-foreground md:hidden">
-                    {formatDate(route.departure)}
-                  </div>
+              </TableCell>
+              <TableCell className="hidden md:table-cell">
+                <div className="font-medium">
+                  {formatTimeWithAMPM(route.departure)} - {formatTimeWithAMPM(route.arrival)}
                 </div>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">
-                {formatDate(route.departure)}
-              </TableCell>
-              <TableCell className="hidden md:table-cell">
-                {formatDate(route.arrival)}
               </TableCell>
               <TableCell className="hidden lg:table-cell">
                 {formatDuration(route.duration)}

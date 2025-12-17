@@ -18,25 +18,23 @@ import { RoutesHeader } from './components/routes-header';
 import { RoutesTableSkeleton } from './components/routes-table-skeleton';
 
 export default async function RoutesPage(props: {
-  searchParams?: Promise<{
-    query?: string;
-    page?: string;
-  }>;
+  searchParams: Promise<IQuery>;
 }) {
-  const query = await props.searchParams as IQuery;
+  const query = await props.searchParams;
   const Header = withDashboardHeader(RoutesHeader);
   const operators = await getOperators();
   const cities = await getCities();
 
   return (
-    <main className="flex flex-col gap-2 px-1 container min-h-screen overflow-hidden">
+    <main
+      className="flex flex-col gap-2 px-1 container min-h-screen overflow-hidden">
       <Header />
       <RouteFilter
         operators={operators}
         cities={cities}
       />
       <Suspense fallback={<RoutesTableSkeleton />}>
-          <RoutesList query={query} />
+        <RoutesList query={query} />
       </Suspense>
     </main>
   );

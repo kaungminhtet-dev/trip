@@ -1,7 +1,7 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { Query } from "./type";
+import { cookies } from 'next/headers';
+import { Query } from './type';
 
 const cookieStore = await cookies();
 const URI = process.env["BACKEND_API"];
@@ -22,7 +22,7 @@ export const getByQuery = async (
   }
 
   return fetch(
-    `${URI}/${endpoint}?page=${query.page}&limit=${query.limit}&sort_by=${query.sort_by}&order=${query.order}`,
+    `${URI}/${endpoint}?page=${query.page}&size=${query.size}&sort_by=${query.sort_by}&order=${query.order_by}`,
   );
 };
 
@@ -40,7 +40,7 @@ export const getById = async (endpoint: string, id: string, auth = false) => {
   return fetch(`${URI}/${endpoint}/${id}`);
 };
 
-export const post = async (endpoint: string, data: any, auth = false) => {
+export const post = async (endpoint: string, data: unknown, auth = false) => {
   if (auth) {
     return fetch(`${URI}/${endpoint}`, {
       method: "POST",
@@ -64,7 +64,7 @@ export const post = async (endpoint: string, data: any, auth = false) => {
 export const patch = async (
   endpoint: string,
   id: string,
-  data: any,
+  data: unknown,
   auth = false,
 ) => {
   if (auth) {

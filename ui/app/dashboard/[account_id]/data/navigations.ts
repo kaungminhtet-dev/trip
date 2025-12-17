@@ -18,7 +18,7 @@ export default function getNavList(): NavDTO[] {
     {
       id: "2",
       name: "Tickets",
-      endpoint: "tickets?page=1",
+      endpoint: "tickets?page=1&size=10&sort=createdAt&order=desc",
       icon: Icon.ticket,
     },
     {

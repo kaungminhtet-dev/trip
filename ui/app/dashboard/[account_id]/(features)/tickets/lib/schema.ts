@@ -1,6 +1,5 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-// Define the TicketStatus enum
 export enum TicketStatus {
   AVAILABLE = "AVAILABLE",
   RESERVED = "RESERVED",
@@ -9,16 +8,15 @@ export enum TicketStatus {
   EXPIRED = "EXPIRED",
 }
 
-// Schema for ticket creation
-export const ticketSchema = z.object({
+export const createTicketSchema = z.object({
   ticketNumber: z
     .string()
     .min(1, "Ticket number is required")
     .regex(/^TK-\d{3,}$/, "Ticket number must be in format TK-XXX"),
-  price: z.string().min(1, "Price is required"),
-  routeId: z.string().min(1, "Route is required"),
-  status: z.nativeEnum(TicketStatus),
-  bookingId: z.string().optional(),
+  price: z.number().gt(0, "Invalid price"),
+  routeId: z.uuidv4("Invalid route"),
+  status: z.enum(TicketStatus),
+  bookingId: z.uuidv4().optional(),
 });
 
-export type TicketFormValues = z.infer<typeof ticketSchema>;
+export type CreateTicketFormValues = z.infer<typeof createTicketSchema>;

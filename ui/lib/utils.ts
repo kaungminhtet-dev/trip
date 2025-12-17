@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function shortDate(date: Date): string {
   return date.toDateString().split(' ').splice(1).join(' ')
 }
+
+export function formatURLDate(date: Date): string {
+  return date.toISOString()
+}
