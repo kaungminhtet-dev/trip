@@ -170,7 +170,7 @@ export function RouteForm({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel htmlFor={'departure'}>Departure</FieldLabel>
+                  <FieldLabel htmlFor={'departure'}>Departure Date</FieldLabel>
                   <DateTimePicker
                     date={field.value}
                     setDate={field.onChange}

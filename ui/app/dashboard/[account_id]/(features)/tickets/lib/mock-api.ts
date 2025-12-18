@@ -2,6 +2,7 @@
 
 import {
   IQuery,
+  IRoute,
   ITicketList,
   TicketStatus,
 } from '@/app/dashboard/[account_id]/(features)/tickets/lib/types';
@@ -20,6 +21,16 @@ const ticketsdb: ITicketList[] = Array(100).fill(1).map((i) => ({
   origin: faker.location.city(),
   destination: faker.location.city(),
   departure: faker.date.soon(),
+}))
+
+const routedb: IRoute[] = Array(100).fill(1).map((i) => ({
+  id: faker.string.uuid(),
+  origin: faker.location.city(),
+  arrival: faker.date.soon(),
+  departure: faker.date.soon(),
+  duration: faker.number.int({min: 1, max: 10}),
+  transportType: faker.helpers.arrayElement(['bus', 'train', 'plane']),
+  destination: faker.location.city(),
 }))
 
 function getTickets(query: IQuery):ITicketList[] {
@@ -41,5 +52,14 @@ export async function fetchTickets(query: IQuery) :Promise<ApiResponse<ITicketLi
       totalCounts: tickets.length,
       totalPages: Math.floor(ticketsdb.length/Number(query.size)),
     }
+  }
+}
+
+export async function fetchRoute(date: Date) :Promise<ApiResponse<IRoute[]>> {
+  return {
+    success: true,
+    message: "Routes are successfully fetched",
+    data: routedb.slice(0, 10),
+    metaData: null,
   }
 }

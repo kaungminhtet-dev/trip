@@ -24,7 +24,7 @@ export default async function NewRoutePage({ params }: NewRoutePageProps) {
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-100">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-100">
           Create New Route
         </h1>
       </div>
