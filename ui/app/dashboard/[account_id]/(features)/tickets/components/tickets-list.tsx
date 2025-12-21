@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Edit, Eye, MoreHorizontal } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { TicketStatusBadge } from './ticket-status-badge';
 
@@ -39,7 +39,7 @@ export async function TicketsList({ query }: { query: IQuery }) {
   return (
     <div
       className="flex-1 pb-1 flex justify-between flex-col gap-1 overflow-hidden">
-      <ScrollArea className={"h-11/12 w-full border rounded-md p-1"}>
+      <ScrollArea className={'h-11/12 w-full border rounded-md p-1'}>
         <Table>
           <TableHeader>
             <TableRow>
@@ -80,12 +80,18 @@ export async function TicketsList({ query }: { query: IQuery }) {
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link
-                          href={`/dashboard/abc123/tickets/${ticket.id}/edit`}>
+                          href={`/dashboard/123/tickets/${ticket.id}/edit`}>
                           <Edit className="mr-2 h-4 w-4" />
                           Edit ticket
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="hover:text-destructive focus:text-destructive cursor-pointer"
+                      >
+                        <Trash2 className="hover:text-destructive mr-2 h-4 w-4" />
+                        Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
